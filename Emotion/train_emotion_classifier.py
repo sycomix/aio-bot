@@ -2,6 +2,7 @@
 Description: Train emotion classification model
 """
 
+
 from keras.callbacks import CSVLogger, ModelCheckpoint, EarlyStopping
 from keras.callbacks import ReduceLROnPlateau
 from keras.preprocessing.image import ImageDataGenerator
@@ -40,13 +41,13 @@ model.summary()
 
 
 
-    # callbacks
-log_file_path = base_path + '_emotion_training.log'
+log_file_path = f'{base_path}_emotion_training.log'
 csv_logger = CSVLogger(log_file_path, append=False)
 early_stop = EarlyStopping('val_loss', patience=patience)
-reduce_lr = ReduceLROnPlateau('val_loss', factor=0.1,
-                                  patience=int(patience/4), verbose=1)
-trained_models_path = base_path + '_mini_XCEPTION'
+reduce_lr = ReduceLROnPlateau(
+    'val_loss', factor=0.1, patience=patience // 4, verbose=1
+)
+trained_models_path = f'{base_path}_mini_XCEPTION'
 model_names = trained_models_path + '.{epoch:02d}-{val_acc:.2f}.hdf5'
 model_checkpoint = ModelCheckpoint(model_names, 'val_loss', verbose=1,
                                                     save_best_only=True)

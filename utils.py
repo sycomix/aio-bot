@@ -25,7 +25,7 @@ def whoIs(query,sessionID="general"):
                 return wikipedia.summary(newquery)
             except:
                 pass
-    return "I don't know about "+query
+    return f"I don't know about {query}"
 
 
 # # Emotion Detector Connection
@@ -71,14 +71,14 @@ def emo(query,sessionID="general"):
             roi = roi.astype("float") / 255.0
             roi = img_to_array(roi)
             roi = np.expand_dims(roi, axis=0)
-            
+
             preds = emotion_classifier.predict(roi)[0]
             emotion_probability = np.max(preds)
             label = EMOTIONS[preds.argmax()]
 
             ee = []
             percent = []
-            for (i, (emotion, prob)) in enumerate(zip(EMOTIONS, preds)):
+            for emotion, prob in zip(EMOTIONS, preds):
                 ee.append(emotion)
                 percent.append(prob)
             mp = percent.index(max(percent))

@@ -16,10 +16,6 @@ EMOTIONS = ["angry" ,"disgust","scared", "happy", "sad", "surprised",
  "neutral"]
 
 
-#feelings_faces = []
-#for index, emotion in enumerate(EMOTIONS):
-   # feelings_faces.append(cv2.imread('emojis/' + emotion + '.png', -1))
-
 # starting video streaming
 cv2.namedWindow('your_face')
 camera = cv2.VideoCapture(0)
@@ -33,7 +29,7 @@ while True:
     frame = imutils.resize(frame,width=300)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_detection.detectMultiScale(gray,scaleFactor=1.1,minNeighbors=5,minSize=(30,30),flags=cv2.CASCADE_SCALE_IMAGE)
-    
+
     canvas = np.zeros((250, 300, 3), dtype="uint8")
     frameClone = frame.copy()
     if len(faces) > 0:
@@ -47,14 +43,14 @@ while True:
         roi = roi.astype("float") / 255.0
         roi = img_to_array(roi)
         roi = np.expand_dims(roi, axis=0)
-        
-        
+
+
         preds = emotion_classifier.predict(roi)[0]
         emotion_probability = np.max(preds)
         label = EMOTIONS[preds.argmax()]
-    
 
- 
+
+
     for (i, (emotion, prob)) in enumerate(zip(EMOTIONS, preds)):
                 # construct the label text
                 text = "{}: {:.2f}%".format(emotion, prob * 100)
@@ -62,7 +58,7 @@ while True:
                 # draw the label + probability bar on the canvas
                # emoji_face = feelings_faces[np.argmax(preds)]
 
-                
+
                 w = int(prob * 300)
                 cv2.rectangle(canvas, (7, (i * 35) + 5),
                 (w, (i * 35) + 35), (0, 0, 255), -1)
@@ -73,17 +69,11 @@ while True:
                 cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
                 cv2.rectangle(frameClone, (fX, fY), (fX + fW, fY + fH),
                               (0, 0, 255), 2)
-#    for c in range(0, 3):
-#        frame[200:320, 10:130, c] = emoji_face[:, :, c] * \
-#        (emoji_face[:, :, 3] / 255.0) + frame[200:320,
-#        10:130, c] * (1.0 - emoji_face[:, :, 3] / 255.0)
-    tee = []
-    for (i, (emotion, prob)) in enumerate(zip(EMOTIONS, preds)):
-        tee.append(prob)
+    tee = [prob for emotion, prob in zip(EMOTIONS, preds)]
     s_name = tee.index(max(tee))
     if iii == 50:
-    	playsound.playsound(str(s_name)+".mp3",True)
-    	print("song no:",s_name)
+        playsound.playsound(f"{s_name}.mp3", True)
+        print("song no:",s_name)
     cv2.imshow('your_face', frameClone)
     cv2.imshow("Probabilities", canvas)
     if cv2.waitKey(1) & 0xFF == ord('q'):

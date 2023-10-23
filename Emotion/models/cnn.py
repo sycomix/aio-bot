@@ -196,8 +196,7 @@ def tiny_XCEPTION(input_shape, num_classes, l2_regularization=0.01):
     x = GlobalAveragePooling2D()(x)
     output = Activation('softmax',name='predictions')(x)
 
-    model = Model(img_input, output)
-    return model
+    return Model(img_input, output)
 
 
 def mini_XCEPTION(input_shape, num_classes, l2_regularization=0.01):
@@ -292,8 +291,7 @@ def mini_XCEPTION(input_shape, num_classes, l2_regularization=0.01):
     x = GlobalAveragePooling2D()(x)
     output = Activation('softmax',name='predictions')(x)
 
-    model = Model(img_input, output)
-    return model
+    return Model(img_input, output)
 
 def big_XCEPTION(input_shape, num_classes):
     img_input = Input(input_shape)
@@ -336,8 +334,7 @@ def big_XCEPTION(input_shape, num_classes):
     x = GlobalAveragePooling2D()(x)
     output = Activation('softmax',name='predictions')(x)
 
-    model = Model(img_input, output)
-    return model
+    return Model(img_input, output)
 
 
 if __name__ == "__main__":
